@@ -3,10 +3,9 @@ package com.crud.tasks.trello.client;
 import com.crud.tasks.domain.CreatedTrelloCard;
 import com.crud.tasks.domain.TrelloBoardDto;
 import com.crud.tasks.domain.TrelloCardDto;
-
 import com.crud.tasks.trello.config.TrelloConfig;
 import org.junit.Before;
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
-class TrelloClientTest {
+public class TrelloClientTest {
 
     @InjectMocks
     private TrelloClient trelloClient;
@@ -38,6 +37,7 @@ class TrelloClientTest {
         when(trelloConfig.getTrelloApiEndpoint()).thenReturn("http://test.com");
         when(trelloConfig.getTrelloAppKey()).thenReturn("test");
         when(trelloConfig.getTrelloToken()).thenReturn("test");
+        when(trelloConfig.getTrelloUsername()).thenReturn("kodillauser");
     }
 
     @Test
@@ -77,7 +77,7 @@ class TrelloClientTest {
                 "Test task",
                 "http://test.com"
         );
-
+        System.out.println(uri);
         when(restTemplate.postForObject(uri, null , CreatedTrelloCard.class)).thenReturn(createdTrelloCard);
         //When
         CreatedTrelloCard newCard = trelloClient.createNewCard(trelloCardDto);
@@ -100,6 +100,5 @@ class TrelloClientTest {
 
         //Then
         assertEquals(0, emptyTrelloBoards.size());
-        assertEquals(null, emptyTrelloBoards);
     }
 }
