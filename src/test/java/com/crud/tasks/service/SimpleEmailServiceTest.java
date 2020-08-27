@@ -22,7 +22,7 @@ public class SimpleEmailServiceTest {
     private JavaMailSender javaMailSender;
 
     @Test
-    public void shoulSendEmail(){
+    public void shouldSendEmail(){
         //Given
         Mail mail = new Mail("test@test.com", "Test", "Test Message");
 
