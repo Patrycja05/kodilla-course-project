@@ -3,17 +3,60 @@ package com.crud.tasks.mapper;
 import com.crud.tasks.domain.*;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-
+import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@SpringBootTest
+@RunWith(SpringRunner.class)
 public class TrelloMapperTestSuite {
     @Autowired
     private TrelloMapper trelloMapper;
+
+    @Test
+    public void testMapToList(){
+        //Given
+        TrelloListsDto testListsDto1 = new TrelloListsDto("1", "test1", true);
+        TrelloListsDto testListsDto2 = new TrelloListsDto("2", "test2", false);
+        List<TrelloListsDto> trelloListsDto = new ArrayList<>();
+        trelloListsDto.add(testListsDto1);
+        trelloListsDto.add(testListsDto2);
+
+        //When
+        List<TrelloList> trelloList = trelloMapper.mapToList(trelloListsDto);
+
+        //Then
+        Assert.assertEquals("1", trelloList.get(0).getId());
+        Assert.assertEquals("test2", trelloList.get(1).getName());
+        Assert.assertEquals(true, trelloList.get(1).isClosed());
+    }
+
+    public List<TrelloListsDto> mapToListDto(final  List<TrelloList> trelloLists){
+        return trelloLists.stream()
+                .map(trelloList -> new TrelloListsDto(trelloList.getId(), trelloList.getName(), trelloList.isClosed()))
+                .collect(Collectors.toList());
+    }
+
+    @Test
+    public void testMapToListDto(){
+        //Given
+        TrelloList testList1 = new TrelloList("1", "test1", true);
+        TrelloList testLists2 = new TrelloList("2", "test2", false);
+        List<TrelloList> trelloList = new ArrayList<>();
+        trelloList.add(testList1);
+        trelloList.add(testLists2);
+
+        //When
+        List<TrelloListsDto> trelloListsDto = trelloMapper.mapToListDto(trelloList);
+
+        //Then
+        Assert.assertEquals("1", trelloListsDto.get(0).getId());
+        Assert.assertEquals("test2", trelloListsDto.get(1).getName());
+        Assert.assertEquals(true, trelloListsDto.get(1).isClosed());
+    }
 
     @Test
     public void testMapToBoards(){
