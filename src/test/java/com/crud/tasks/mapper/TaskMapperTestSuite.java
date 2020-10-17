@@ -5,6 +5,7 @@ import com.crud.tasks.domain.TaskDto;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 import static org.junit.Assert.*;
 
 @RunWith(SpringRunner.class)
+@SpringBootTest
 public class TaskMapperTestSuite {
     @Autowired
     private TaskMapper taskMapper;
@@ -27,7 +29,7 @@ public class TaskMapperTestSuite {
         Task task = taskMapper.maptoTask(taskDto);
 
         //Then
-        assertEquals(java.util.Optional.of(1L), task.getId());
+        assertEquals(1, task.getId());
         assertEquals("test_title", task.getTitle());
         assertEquals("test_content", task.getContent());
     }
@@ -41,7 +43,7 @@ public class TaskMapperTestSuite {
         TaskDto taskDto = taskMapper.mapToTaskDto(task);
 
         //Then
-        assertEquals(java.util.Optional.of(1L), taskDto.getId());
+        assertEquals(1, taskDto.getId());
         assertEquals("test_title", taskDto.getTitle());
         assertEquals("test_content", taskDto.getContent());
     }

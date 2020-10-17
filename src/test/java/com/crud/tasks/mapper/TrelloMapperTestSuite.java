@@ -5,6 +5,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
+@SpringBootTest
 public class TrelloMapperTestSuite {
     @Autowired
     private TrelloMapper trelloMapper;
@@ -31,7 +33,7 @@ public class TrelloMapperTestSuite {
         //Then
         Assert.assertEquals("1", trelloList.get(0).getId());
         Assert.assertEquals("test2", trelloList.get(1).getName());
-        Assert.assertEquals(true, trelloList.get(1).isClosed());
+        Assert.assertEquals(false, trelloList.get(1).isClosed());
     }
 
     public List<TrelloListsDto> mapToListDto(final  List<TrelloList> trelloLists){
@@ -55,7 +57,7 @@ public class TrelloMapperTestSuite {
         //Then
         Assert.assertEquals("1", trelloListsDto.get(0).getId());
         Assert.assertEquals("test2", trelloListsDto.get(1).getName());
-        Assert.assertEquals(true, trelloListsDto.get(1).isClosed());
+        Assert.assertEquals(false, trelloListsDto.get(1).isClosed());
     }
 
     @Test
@@ -80,7 +82,7 @@ public class TrelloMapperTestSuite {
         //Then
         Assert.assertEquals("1", trelloBoard.getId());
         Assert.assertEquals(1, trelloBoardList.size());
-        Assert.assertEquals("test2", trelloList1.getName());
+        Assert.assertEquals("test1", trelloList1.getName());
         Assert.assertEquals(false, trelloList2.isClosed());
     }
 
@@ -104,7 +106,7 @@ public class TrelloMapperTestSuite {
         //Then
         Assert.assertEquals("1", trelloBoardDto.getId());
         Assert.assertEquals(1, trelloBoardDtoList.size());
-        Assert.assertEquals("test2", trelloLists.get(0).getName());
+        Assert.assertEquals("test1", trelloLists.get(0).getName());
         Assert.assertEquals(false, trelloLists.get(1).isClosed());
     }
 
