@@ -1,9 +1,10 @@
-/*package com.crud.tasks.controller;
+package com.crud.tasks.controller;
 
 import com.crud.tasks.domain.Task;
 import com.crud.tasks.domain.TaskDto;
 import com.crud.tasks.mapper.TaskMapper;
 import com.crud.tasks.service.DbService;
+import com.google.gson.Gson;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +46,7 @@ public class TaskControllerTest {
         when(taskMapper.mapToTaskDtoList(dbService.getAllTasks())).thenReturn(taskDtoList);
 
         // When & Then
-        mockMvc.perform(get("/v1/trello/getTasks").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/task/getTasks").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$", hasSize(0)));
     }
@@ -60,11 +61,13 @@ public class TaskControllerTest {
         when(dbService.getTask(taskDto.getId())).thenReturn(Optional.of(task));
 
         // When & Then
-        mockMvc.perform(get("/v1/trello/getTask").contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get("/v1/task/getTask").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
                 .andExpect(jsonPath("$.id", is(1L)))
                 .andExpect(jsonPath("$.title", is("Title")))
                 .andExpect(jsonPath("$.content", is("Content")));
+
+
     }
 
     @Test
@@ -72,7 +75,7 @@ public class TaskControllerTest {
         //Given
 
         //Whem & Then
-        mockMvc.perform(delete("/v1/trello/deleteTask")
+        mockMvc.perform(delete("/v1/task/deleteTask")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
 
@@ -81,15 +84,15 @@ public class TaskControllerTest {
     @Test
     public void updateTaskTest() throws Exception {
         //Given
-        TaskDto taskDto = new TaskDto(1l, "Title", "Content");
-        Task task = new Task(1L, "Task1", "Content1");
+        TaskDto taskDto = new TaskDto(1, "Title", "Content");
+        Task task = new Task(1, "Task1", "Content1");
 
         when(taskMapper.mapToTaskDto(any(Task.class))).thenReturn(taskDto);
         when(dbService.saveTask(any(Task.class))).thenReturn(task);
         when(taskMapper.maptoTask(any(TaskDto.class))).thenReturn(task);
 
         //Whem & Then
-        mockMvc.perform(put("/v1/trello/updateTask")
+        mockMvc.perform(put("/v1/task/updateTask")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200));
     }
@@ -97,15 +100,23 @@ public class TaskControllerTest {
     @Test
     public void createTaskTest() throws Exception {
         //Given
-        TaskDto taskDto = new TaskDto(1l, "Title", "Content");
-        Task task = new Task(1L, "Task1", "Content1");
+        TaskDto taskDto = new TaskDto(1, "Title", "Content");
+        Task task = new Task(1, "Task1", "Content1");
 
         when(taskMapper.mapToTaskDto(any(Task.class))).thenReturn(taskDto);
         when(dbService.saveTask(any(Task.class))).thenReturn(task);
 
+        Gson gson = new Gson();
+        String jsonContent = gson.toJson(taskDto);
+
         //Whem & Then
-        mockMvc.perform(post("/v1/trello/createTask")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is(200));
+        mockMvc.perform(post("/v1/task/createTask").contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(jsonContent))
+                .andExpect(status().is(200))
+                .andExpect(jsonPath("$.id", is(1)))
+                .andExpect(jsonPath("$.title", is("Task1")))
+                .andExpect(jsonPath("$.content", is("Content1")));
+
     }
-}*/
+}
