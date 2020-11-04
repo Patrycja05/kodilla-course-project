@@ -20,7 +20,14 @@
     <!--/*@thymesVar id="plus" type="com.crud.tasks.controller.StaticWebPageController"*/-->
     <!--/*@thymesVar id="minus" type="com.crud.tasks.controller.StaticWebPageController"*/-->
     <span th:text="${two} + ${mult} + ${two} +  ${equals} + ${two} * ${two}"></span>
-    <span th:text="${two} + ${mult} + ${two} + ${plus} + ${two} + ${equals} + ${two} * ${two} + ${two}"></span>
-    <span th:text="${two} + ${minus} + ${two} + ${mult} + ${two} + ${equals} + ${two} - ${two} * ${two}"></span>
+    <br></br>
+
+    <span th:text="${two} + ${mult} + ${two} + ${plus} + ${two} + ${equals}"></span>
+    <span th:text="${two} * ${two} + ${two}"></span>
+
+    <br></br>
+
+    <span th:text="${two} + ${minus} + ${two} + ${mult} + ${two} + ${equals}"></span>
+    <span th:text="${two} - ${two} * ${two}"></span>
 </body>
 </html>
