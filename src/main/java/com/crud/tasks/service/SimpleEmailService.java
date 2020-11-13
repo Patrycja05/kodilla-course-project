@@ -25,7 +25,7 @@ public class SimpleEmailService {
         LOGGER.info("Starting email preparation...");
         try {
             SimpleMailMessage mailMessage = createMailMessage(mail);
-            javaMailSender.send(createMimeMessage(mail));
+            javaMailSender.send(createMailMessage(mail));
             LOGGER.info(("Email has been sent."));
         } catch (MailException e){
             LOGGER.error("Failed to process emial sending: ", e.getMessage(), e);
